@@ -1,66 +1,122 @@
-# Matriz de Métodos de Avaliação Automática de RI com LLMs
+# Matriz Consolidada de Métodos — Avaliação Automática de RI com LLMs
 
-## output deepseek:
+Inventário consolidado e filtrado pelo escopo do PIBIT (com auxílio do Kimi K3 e Claude Sonnet 4.6 baixo): avaliação automática de relevância ad-hoc (documento-consulta) com LLMs. Métodos exclusivos de RAG e de re-ranking foram excluídos (ver tabela de ignorados ao final).
+Revisão nº 2: 2026-09-08. Todos os campos conferidos contra os PDFs dos artigos (quando o artigo estava disponível); nada foi inferido além do texto.
+
+Será revisado manualmente by me, andré kaled :D
+as observaçoes foram feitas pelo Kimi, então talvez estejam falando de algo do artigo em si puramente pra preencher o campo ou delirando lalalala e nao concordo sem ter visto o artigo ao todo, portanto se veres antes de eu apagar essa linha, discorde de tudo até leitura do artigo como eu. Considere os artigos com o Título linkado ao invés de apenas o link como vistos parcialmente por mim e com as observações de autoria própria.lalalalalala
+
+## Métodos no escopo
 
 | Método | Ano | Abordagem | Paper | Código | Benchmark | Observações |
 |--------|-----|-----------|-------|--------|-----------|-------------|
-| UMBRELA | 2024 | Pointwise | Upadhyay et al., "UMBRELA: UMbrela is the (Open-Source Reproduction of the) Bing RElevance Assessor" (arXiv:2406.06519) | Sim | TREC DL 2019–2023 | Reprodução open-source do Bing Relevance Assessor; julgamentos absolutos de relevância |
-| Thomas et al. | 2024 | Pointwise | Thomas et al., Large Language Models Can Accurately Predict Searcher Preferences | Não | TREC Robust 2004 | Trabalho precursor que investiga LLMs para geração de labels de relevância; serviu de base para UMBRELA |
-| Criteria-Based (Four Prompts) | 2024 | Pointwise + decomposição | Farzi & Dietz, "Best in Tau@LLMJudge: Criteria-Based Relevance Evaluation with Llama3" (arXiv:2410.14044) | Não | LLMJudge (TREC DL 2023) | Decompõe relevância em 4 critérios (exactness, coverage, topicality, contextual fit); agregação por prompt, soma ou Naive Bayes |
-| Criteria-Based (sumdecompose) | 2024 | Pointwise + decomposição | Farzi & Dietz, "Best in Tau@LLMJudge: Criteria-Based Relevance Evaluation with Llama3" (arXiv:2410.14044) | Não | LLMJudge (TREC DL 2023) | Variante com agregação por soma simples dos critérios |
-| Criteria-Based (naiveBdecompose) | 2024 | Pointwise + decomposição | Farzi & Dietz, "Best in Tau@LLMJudge: Criteria-Based Relevance Evaluation with Llama3" (arXiv:2410.14044) | Não | LLMJudge (TREC DL 2023) | Variante com agregação por classificador Naive Bayes |
-| Criteria-Based (COT) | 2024 | Pointwise + decomposição + árvore | Farzi & Dietz, "Best in Tau@LLMJudge: Criteria-Based Relevance Evaluation with Llama3" (arXiv:2410.14044) | Não | LLMJudge (TREC DL 2023) | Utiliza checagem binária prévia para decidir quais critérios avaliar |
-| Pointwise Legal (simple) | 2026 | Pointwise | Fernandes et al., "NormasTCU — A Brazilian Portuguese IR Dataset and an Evaluation of LLM-as-a-Judge for Relevance Assessment" (arXiv:2608.27746) | Sim | NormasTCU | Avaliação pointwise direta em português para domínio jurídico; escala 0–2 |
-| Pointwise Legal (rationale) | 2026 | Pointwise + rationale | Fernandes et al., "NormasTCU — A Brazilian Portuguese IR Dataset and an Evaluation of LLM-as-a-Judge for Relevance Assessment" (arXiv:2608.27746) | Sim | NormasTCU | Gera justificativa textual antes da nota; escala 0–2 |
-| JudgeBlender (PromptBlender) | 2025 | Ensemble | Rahmani et al., "JudgeBlender: Ensembling Judgments for Automatic Relevance Assessment" (arXiv:2412.13268) | Sim | LLMJudge (TREC DL 2023) | Combina múltiplos prompts com um mesmo LLM; agregação por maioria ou média |
-| JudgeBlender (LLMBlender) | 2025 | Ensemble | Rahmani et al., "JudgeBlender: Ensembling Judgments for Automatic Relevance Assessment" (arXiv:2412.13268) | Sim | LLMJudge (TREC DL 2023) | Combina múltiplos LLMs com prompts distintos; agregação por maioria ou média |
-| RUBRIC (Question) | 2024 | Question-based | Farzi & Dietz, "Pencils Down! Automatic Rubric-based Evaluation of Retrieve/Generate Systems" (ICTIR 2024) | Sim | TREC DL 2019–2020, TREC CAR Y3 | Avalia answerability de passagens a perguntas de teste; específico para RAG/conteúdo |
-| RUBRIC (Nugget) | 2024 | Nugget-based | Farzi & Dietz, "Pencils Down! Automatic Rubric-based Evaluation of Retrieve/Generate Systems" (ICTIR 2024) | Sim | TREC DL 2019–2020, TREC CAR Y3 | Utiliza nuggets (fatos) em vez de perguntas; específico para RAG/conteúdo |
-| AutoNuggetizer | 2025 | Nugget-based | Pradeep et al., "The Great Nugget Recall: Automating Fact Extraction and RAG Evaluation with Large Language Models" (SIGIR 2025) | Parcial | TREC RAG 2024 | Extração iterativa de nuggets e atribuição de suporte; específico para avaliação de RAG |
-| One-Shot Labeling (DuoPrompt) | 2023 | Pairwise | MacAvaney & Soldaini, "One-Shot Labeling for Automatic Relevance Estimation" (SIGIR 2023) | Sim | TREC DL 2019–2021 | Estima relevância de documentos não julgados comparando com um documento relevante conhecido (d⁺) |
-| One-Shot Labeling (DuoT5) | 2023 | Pairwise | MacAvaney & Soldaini, "One-Shot Labeling for Automatic Relevance Estimation" (SIGIR 2023) | Sim | TREC DL 2019–2021 | Versão supervisionada do DuoPrompt com modelo T5 de 3B |
-| One-Shot Labeling (MaxRep) | 2023 | k-NN | MacAvaney & Soldaini, "One-Shot Labeling for Automatic Relevance Estimation" (SIGIR 2023) | Sim | TREC DL 2019–2021 | Abordagem de vizinhos mais próximos (lexical ou semântico) a partir de d⁺ |
-| RankGPT (Permutation Generation) | 2023 | Listwise | Sun et al., "Is ChatGPT Good at Search? Investigating Large Language Models as Re-Ranking Agents" (EMNLP 2023) | Sim | TREC DL, BEIR, Mr.TyDi, NovelEval | Re-ranking listwise com janela deslizante; não gera qrels diretamente |
-| LRL (Listwise Reranker) | 2023 | Listwise | Ma et al., "Zero-Shot Listwise Document Reranking with a Large Language Model" (arXiv:2305.02156) | Não informado | TREC Web, MIRACL | Re-ranking zero-shot listwise; não gera qrels diretamente |
-| Thomas et al. (Direct Prompting) | 2024 | Pointwise | Thomas et al., "Large language models can accurately predict searcher preferences" (SIGIR 2024) | Não | TREC Robust 2004 | Base para o UMBRELA; explora combinações de features de prompt (Role, Description, Narrative, Aspects) |
-| Faggioli et al. (Perspectives) | 2023 | Pointwise | Faggioli et al., "Perspectives on Large Language Models for Relevance Judgment" (ICTIR 2023) | Não | TREC-8, TREC DL 2021 | Estudo piloto com prompts simples em GPT-3.5 e YouChat; define espectro de colaboração humano-máquina |
-| Criteria-Based / TREMA-other | 2024 | Query-style synthesis + similarity | Farzi & Dietz | Não informado | TREC DL 2023 / LLMJudge | Gera uma representação da passagem em estilo de consulta e compara sua similaridade com a consulta original |
-
-### Itens que exigem verificação
-
-1. **Criteria-Based — código disponível?** O artigo [1] não menciona explicitamente um repositório público. A implementação foi submetida ao desafio LLMJudge, mas não há indicação clara de disponibilização do código-fonte.
-
-2. **AutoNuggetizer — código disponível?** O artigo [5] descreve o framework, mas a disponibilidade de código é indicada como "Parcial" pois o starter kit do Auto-Judge fornece parte da infraestrutura, mas a orquestração completa do pipeline iterativo não está necessariamente disponível como um pacote pronto.
-
-3. **LRL (Listwise Reranker) — código disponível?** O artigo [4] não menciona explicitamente um repositório de código.
-
-4. **Thomas et al. — código disponível?** O artigo [8] não disponibiliza código; o UMBRELA [0] é uma reprodução open-source desse trabalho.
-
-5. **Classificação de escopo do RUBRIC e AutoNuggetizer:** Ambos são métodos de avaliação de RAG/conteúdo, não de relevância clássica documento-consulta. Isso está indicado em "Observações".
-
-## output notebooklm:
-
-| Método | Ano | Abordagem | Paper | Código | Benchmark | Observações |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **UMBRELA (DNA Prompting)** | 2024 | Pointwise | Upadhyay et al. (2024) "UMBRELA: UMbrela is the (Open-Source Reproduction of the) Bing RELevance Assessor"; Thomas et al. (2024) "Large Language Models can Accurately Predict Searcher Preferences" | Sim | TREC DL (2019-2023), TREC Robust 2004, TREC RAG 2024 | Gera julgamentos absolutos de relevância baseados nos aspectos de intenção provável da consulta e confiabilidade (DNA). |
-| **Criteria-Based Relevance Evaluation (TREMA-4prompts / sumdecompose)** | 2024 | Pointwise + decomposição | Farzi & Dietz (2024) "Best in Tau@LLMJudge: Criteria-Based Relevance Evaluation with Llama3" | Não informado | TREC DL 2023 (LLMJudge Challenge) | Decompõe a relevância em quatro critérios específicos (Exactness, Coverage, Topicality e Contextual Fit) antes de agregá-los. |
-| **Criteria-Based Relevance Evaluation with Binary Check (TREMA-COT)** | 2024 | Pointwise + decomposição | Farzi & Dietz (2024) "Best in Tau@LLMJudge: Criteria-Based Relevance Evaluation with Llama3" | Não informado | TREC DL 2023 (LLMJudge Challenge) | Executa um pré-check binário de relevância e avalia apenas um subconjunto de critérios específicos dependendo do resultado. |
-| **Criteria-Based Relevance Evaluation with Query-Style Synthesis (TREMA-other)** | 2024 | Outra (Sintética + Similaridade) | Farzi & Dietz (2024) "Best in Tau@LLMJudge: Criteria-Based Relevance Evaluation with Llama3" | Não informado | TREC DL 2023 (LLMJudge Challenge) | Sintetiza um resumo da passagem no estilo linguístico da consulta e avalia a similaridade semântica entre eles. |
-| **RUBRIC (Question RUBRIC)** | 2024 | Question-based | Farzi & Dietz (2024) "Pencils Down! Automatic Rubric-based Evaluation of Retrieve/Generate Systems" | Sim | TREC DL 2019, TREC DL 2020, TREC CAR Y3 | Decompõe a consulta em 10 perguntas de teste e avalia o grau de answerability nas passagens; específico para RAG e geração. |
-| **RUBRIC (Nugget RUBRIC)** | 2024 | Nugget-based | Farzi & Dietz (2024) "Pencils Down! Automatic Rubric-based Evaluation of Retrieve/Generate Systems" | Sim | TREC DL 2019, TREC DL 2020, TREC CAR Y3 | Variante do RUBRIC que utiliza nuggets de fatos atômicos em vez de perguntas abertas para verificar as respostas; específico para RAG e geração. |
-| **JudgeBlender (PromptBlender e LLMBlender)** | 2025 | Ensemble | Rahmani et al. (2025) "JudgeBlender: Ensembling Automatic Relevance Judgments" | Sim | TREC DL 2023 (LLMJudge Challenge) | Combina julgamentos pointwise gerados a partir de múltiplos modelos abertos (LLMBlender) ou múltiplos prompts (PromptBlender). |
-| **One-Shot Labeling (DuoPrompt / DuoT5)** | 2023 | Pairwise | MacAvaney & Soldaini (2023) "One-Shot Labeling for Automatic Relevance Estimation" | Sim | TREC DL 2019, TREC DL 2020, TREC DL 2021 | Estima relevância de documentos unjudged por comparação pareada direta com um único documento positivo conhecido (\\(d^+\\)) por consulta. |
-| **One-Shot Labeling (MaxRep-BM25 / MaxRep-TCT)** | 2023 | Outra (k-NN) | MacAvaney & Soldaini (2023) "One-Shot Labeling for Automatic Relevance Estimation" | Sim | TREC DL 2019, TREC DL 2020, TREC DL 2021 | Estima relevância com base na semelhança lexical ou densa com um único documento relevante conhecido por consulta, sem usar a consulta. |
-| **AutoNuggetizer (Fully Automatic)** | 2025 | Nugget-based | Pradeep et al. (2025) "The Great Nugget Recall: Automating Fact Extraction and RAG Evaluation with Large Language Models" | Não informado | TREC 2024 RAG Track (AG e RAG tasks) | Extrai de forma automatizada nuggets de informação e mapeia se estão presentes em respostas discursivas longas; específico para RAG. |
-| **RankGPT (Permutation Generation)** | 2023 | Listwise | Sun et al. (2023) "Is ChatGPT Good at Search? Investigating Large Language Models as Re-Ranking Agents" | Sim | TREC DL 2019, TREC DL 2020, BEIR, Mr.TyDi, NovelEval | Realiza o re-ranqueamento listwise de um grupo de passagens identificadas por números entre colchetes em chamadas de janela deslizante. |
-| **Pointwise Legal Assessor** | 2026 | Pointwise | Fernandes et al. (2026) "NormasTCU — A Brazilian Portuguese IR Dataset and an Evaluation of LLM-as-a-Judge for Relevance Assessment" | Não informado | NormasTCU | Projetado e avaliado em português brasileiro no domínio jurídico, utilizando as variantes simple (score direto) e rationale (com justificativa). |
-| **Sentence Attestation (SA) Judge** | 2026 | Outra (Verificação de suporte) | Farzi et al. (2026) "Auto-Judge: A Cross-Task Benchmark for Comparing LLM Judges for Citation-Grounded RAG Systems" | Sim | RAGTIME 2025 | Verifica se uma citação em uma resposta RAG suporta a afirmação da frase correspondente usando um prompt de entailment; específico para RAG. |
+| UMBRELA | 2024 | Pointwise | [UMBRELA: UMbrela is the (Open-Source Reproduction of the) Bing RELevance Assessor](https://arxiv.org/abs/2406.06519) | [Sim](https://github.com/castorini/umbrela) | TREC DL 2019–2023 | Código aparentemente inclui modelos da OpenAI, GeminiJudge, Hugging Face transformer e aparentemente tem relação com EnsembleJudge |
+| UMBRELA em outros LLMs (Farzi & Dietz) | 2025 | Pointwise (reprodução/validação do UMBRELA) | [Does UMBRELA Work on Other LLMs?](https://arxiv.org/abs/2507.09483) | [Sim](https://github.com/TREMA-UNH/appendix-umbrella-other-llm) | TREC DL 2019, DL 2020, DL 2023 | código do github conta com reimplementação própria dos autores; prompts do repositório UMBRELA |faz
+| Thomas et al. | 2024 | Pointwise | [Large language models can accurately predict searcher preferences](https://arxiv.org/abs/2309.10621) | Não | TREC Robust 2004 | Xeretei rapidamente e não vi github, porém há outros links que olharei depois, pode estar hospedado em outros lugares, AVISO: tem prompt no artigo :D |
+| Faggioli et al. | 2023 | Pointwise | [Perspectives on Large Language Models for Relevance Judgment](https://arxiv.org/abs/2304.09161) | Não | TREC-8, TREC DL 2021 | Piloto com prompts simples, define espectro de colaboração humano-máquina, re-julgamento de TREC DL 2021 com few-shot|
+| Criteria-Based (Four Prompts) | 2024 | Pointwise + decomposição | [Best in Tau@LLMJudge: Criteria-Based Relevance Evaluation with Llama3](https://arxiv.org/abs/2410.14044) | Não | LLMJudge (TREC DL 2023) | Decompõe relevância em 4 critérios (exactness, coverage, topicality, contextual fit); melhor Kendall's τ do desafio (0,9483); LLaMA-3-8B-Instruct, o github só contém o dataset, mas tem prompts no artigo |
+| Criteria-Based (sumdecompose) | 2024 | Pointwise + decomposição | [Best in Tau@LLMJudge: Criteria-Based Relevance Evaluation with Llama3](https://arxiv.org/abs/2410.14044) | Não | LLMJudge (TREC DL 2023) | Agregação por soma com mapeamento de faixas (10–12->3; 7–9->2; 5–6->1; 0–4->0); Kendall's τ 0,9300 |
+| Criteria-Based (naiveBdecompose) | 2024 | Pointwise + decomposição | [Best in Tau@LLMJudge: Criteria-Based Relevance Evaluation with Llama3](https://arxiv.org/abs/2410.14044) | Não | LLMJudge (TREC DL 2023) | Agregação por Gaussian Naive Bayes (scikit-learn) treinado nas notas dos critérios; Kendall's τ 0,9128 |
+| Criteria-Based (COT) | 2024 | Pointwise + decomposição + gate binário | [Best in Tau@LLMJudge: Criteria-Based Relevance Evaluation with Llama3](https://arxiv.org/abs/2410.14044) | Não | LLMJudge (TREC DL 2023) | Pré-check binário (prompt de Sun et al.); se relevante, avalia Exactness+Coverage e rotula 2–3; se não, avalia Topicality+Contextual Fit e rotula 0–1; Kendall's τ 0,8956 |
+| Criteria-Based (query-style synthesis) | 2024 | Outra (síntese estilo-query + similaridade) | [Best in Tau@LLMJudge: Criteria-Based Relevance Evaluation with Llama3](https://arxiv.org/abs/2410.14044) | Não | LLMJudge (TREC DL 2023) | Gera uma pseudo-query para a passagem e pontua similaridade com a consulta original (0–3); não é julgamento pointwise; τ 0,8200 (????? vou ler isso melhor) |
+| Pointwise Legal (simple) | 2026 | Pointwise | [NormasTCU --- A Brazilian Portuguese IR Dataset and an Evaluation of LLM-as-a-Judge for Relevance Assessment](https://arxiv.org/abs/2608.27746) | Não (dataset público no [HF](https://huggingface.co/datasets/LeandroRibeiro/NormasTCU)) | NormasTCU | Score direto em PT-BR, domínio jurídico; escala 0–2; 3 LLMs (deepseek-3.2, gpt-5-mini, sabiazinho-4); temperature 0. Dataset disponível no HF |
+| Pointwise Legal (rationale) | 2026 | Pointwise + rationale | [NormasTCU --- A Brazilian Portuguese IR Dataset and an Evaluation of LLM-as-a-Judge for Relevance Assessment](https://arxiv.org/abs/2608.27746) | Não (dataset público no [HF](https://huggingface.co/datasets/LeandroRibeiro/NormasTCU)) | NormasTCU | Justificativa antes da nota; LLMs com viés positivo (MAE 0,46–0,66; κ 0,32–0,53); rationale melhora ranking de sistemas (nDCG@10/MRR) sem reduzir viés por par; P@10/R@10 instáveis.  Dataset disponível no HF|
+| JudgeBlender (PromptBlender) | 2024 | Ensemble (sobre julgamentos pointwise) | [JudgeBlender: Ensembling Judgments for Automatic Relevance Assessment](https://arxiv.org/abs/2412.13268) | [Sim](https://github.com/rahmanidashti/JudgeBlender) | LLMJudge (TREC DL 2023) | 1 LLM (Llama-3-8B) × 3 prompts (Thomas; decomposição em critérios tipo MultiCriteria; two-step binário→nota de Sun); agregação AV ou MV com desempate (MV(Avg.), MV(Max.), MV(Min.)). O código-fonte só tem analise para geração dos gráficos, sem código para garantir reprodutibilidade (inclusive tentei [engenharia reversa aqui](https://github.com/AndreKaled/JudgeBlender-Implementation)) |
+| JudgeBlender (LLMBlender) | 2024 | Ensemble (sobre julgamentos pointwise) | [JudgeBlender: Ensembling Judgments for Automatic Relevance Assessment](https://arxiv.org/abs/2412.13268) | [Sim](https://github.com/rahmanidashti/JudgeBlender) (prompts) | LLMJudge (TREC DL 2023) | 3 LLMs com prompts distintos: Mistral-7B (critérios), Gemma-7B (Thomas), Llama-3-8B (two-step); melhor variante geral: LLMBlender-MV(Avg.). O código-fonte só tem analise para geração dos gráficos, sem código para garantir reprodutibilidade (inclusive tentei [engenharia reversa aqui](https://github.com/AndreKaled/JudgeBlender-Implementation)) |
+| One-Shot Labeling (DuoPrompt) | 2023 | Pairwise | [One-Shot Labeling for Automatic Relevance Estimation](https://arxiv.org/abs/2302.11266) | [Sim](https://github.com/seanmacavaney/autoqrels) | TREC DL 2019–2021 | Não entendi nada, vou olhar dps mas nao parece ser codigo fonte pra reproduzir experimento pelo menos, deve ser outra coisa (hipotese minha estou com sono) |
+| One-Shot Labeling (DuoT5) — baseline | 2023 | Pairwise (supervisionado) | [One-Shot Labeling for Automatic Relevance Estimation](https://arxiv.org/abs/2302.11266) | [Sim](https://github.com/seanmacavaney/autoqrels) | TREC DL 2019–2021 | T5-3B fine-tunado de relevância relativa (DuoT5 de Pradeep et al. 2021) — não é zero-shot; usar como baseline supervisionado (a ler) |
 
 ---
+a partir de baixo, não garanto nada tbm irei ver mais tarde
 
-### Itens que exigem verificação
 
-*   **Procedimentos de Amostragem do CIKM '25**: Os procedimentos *"Confidence-Based"* e *"Budget-Based"* de Simone Merlo et al. (2025) não foram incluídos na matriz de métodos, uma vez que não realizam a anotação ou julgamento de relevância dos documentos em si. Tratam-se de frameworks estatísticos e matemáticos de meta-avaliação (amostragem aleatória simples) para validar qrels gerados por terceiros e medir o erro em relação aos julgamentos humanos com esforço mínimo.
-*   **RankGPT como Avaliador de RI**: O método *RankGPT* foi projetado como um algoritmo de re-ranqueamento clássico em lote (*permutation generation*) para melhorar o ranqueamento de sistemas de busca de primeira fase (BM25), enquadrando-se originalmente sob o escopo de busca, mas sua lógica listwise e representação ordinal relativa são descritas como adaptáveis para a criação de qrels ou ordenação relativa de passagens.
-*   **Abordagens de Geração/RAG (RUBRIC, AutoNuggetizer e SA Judge)**: Estes métodos foram catalogados no inventário por sua alta relevância na literatura recente, contudo, é importante destacar que eles não avaliam a relevância ad-hoc clássica consulta-passagem. O *RUBRIC* foca em *answerability* de perguntas de teste, o *AutoNuggetizer* em recall de fatos atômicos (*nuggets*), e o *SA Judge* no suporte de citações.
-*   **Ausência de Código Explicitado em Artigos Científicos**: Nos textos originais dos artigos *"Best in Tau"* (métodos *Criteria-Based/TREMA*) e *"The Great Nugget Recall"* (framework *AutoNuggetizer*), não há links ou declarações explícitas de liberação de repositórios de código específicos dos respectivos métodos. Para o *Pointwise Legal Assessor*, o artigo aponta a disponibilização pública dos dados (normas, qrels e consultas) no HuggingFace, mas não explicita a disponibilização de uma base de código de avaliação de modelo sob licença pública. Portanto, em cumprimento estrito às regras de não fazer inferências na ausência de informações diretas, os campos de código correspondentes foram assinalados como "Não informado".
+## Baselines (não são métodos LLM candidatos)
+
+| Método | Ano | Abordagem | Paper | Papel no estudo |
+|--------|-----|-----------|-------|-----------------|
+| One-Shot Labeling (MaxRep) | 2023 | k-NN (BM25/TCT) | [arXiv:2302.11266](https://arxiv.org/abs/2302.11266) | Baseline não-LLM por similaridade com d+ (k=128, ganho linear decrescente); sem uso da consulta; correlação de sistemas < 0,87 |
+
+## Métodos ignorados (fora do escopo do PIBIC)
+
+| Método | Paper | Motivo da exclusão |
+|--------|-------|--------------------|
+| RUBRIC (Question e Nugget) | [Pencils Down! (ICTIR 2024)](https://dl.acm.org/doi/10.1145/3664190.3672511) | Avalia answerability de perguntas de teste/nuggets sobre respostas de sistemas retrieve/generate — paradigma de RAG/geração, não relevância ad-hoc documento-consulta (tem código: Question-RUBRIC no Autograding Workbench) |
+| AutoNuggetizer | [The Great Nugget Recall (SIGIR 2025)](https://arxiv.org/abs/2504.15068) | Mede recall de nuggets em respostas geradas por sistemas RAG — fora do escopo |
+| SA Judge / Auto-Judge | [Auto-Judge (SIGIR 2026)](https://doi.org/10.1145/3805712.3808601) | Benchmark de meta-avaliação de juízes LLM para RAG com citações (DRAGUN, RAG, RAGTIME 2025); o SA Judge é um baseline interno (prompt de entailment 8-shot do Auto-ARGUE) que verifica suporte de citações — fora do escopo |
+| RankGPT (Permutation Generation) | [Is ChatGPT Good at Search? (EMNLP 2023)](https://arxiv.org/abs/2304.09542) | Método de re-ranking listwise (permutation generation + janela deslizante); não gera qrels/julgamentos — foge do objetivo de avaliação automática |
+| LRL (Listwise Reranker) | [Zero-Shot Listwise Document Reranking (arXiv:2305.02156)](https://arxiv.org/abs/2305.02156) | Idem: re-ranking zero-shot, não avaliador; sem código disponível |
+| Framework de Merlo et al. (Confidence-/Budget-Based) | [A Cost-Effective Framework (CIKM 2025)](https://dl.acm.org/doi/10.1145/3746252.3761200) | Framework estatístico de meta-avaliação (amostragem SRS + intervalo de Wald) para estimar MAE e κ de julgamentos já gerados — não realiza julgamentos; candidato a apoio metodológico na etapa de meta-avaliação do PIBIC |
+| LLM-BLENDER (Jiang et al.) | [arXiv:2306.02561](https://arxiv.org/abs/2306.02561) | Ensembling de GERAÇÕES de LLMs (PairRanker + GenFuser), benchmark MixInstruct — não é avaliação de RI nem o JudgeBlender (baixado por engano em vez do artigo de Rahmani et al.) |
+
+## Literatura de apoio (não são métodos candidatos)
+
+| Artigo | Papel para o PIBIC |
+|--------|--------------------|
+| LLMJudge: LLMs for Relevance Judgments ([arXiv:2408.08896](https://arxiv.org/abs/2408.08896)) | Descrição do desafio/benchmark LLMJudge (25 queries dev + 25 teste, TREC DL 2023) usado por TREMA e JudgeBlender |
+| Judging the Judges ([arXiv:2502.13908](https://arxiv.org/abs/2502.13908)) | Recurso com 42 conjuntos de julgamentos do LLMJudge; análise de viés de escores entre métodos |
+| A Large-Scale Study of Relevance Assessments Using UMBRELA ([ICTIR 2025](https://doi.org/10.1145/3731120.3744605)) | Validação in situ do UMBRELA (TREC 2024 RAG, tarefa de recuperação ad hoc): julgamentos automáticos replicam rankings em nível de run, mas com resolução limitada (nDCG@20) e viés positivo vs. NIST |
+| From Generation to Judgment (EMNLP 2025) | Survey geral de LLM-as-a-judge (taxonomia: atributos, metodologias, benchmarks) |
+| LLM4Eval @SIGIR 2024 / @WSDM 2025 | Páginas dos workshops (contexto da comunidade) |
+
+## Relatório de correções (revisão nº 1 -> nº 2, com os PDFs em mãos)
+
+1. **PDF errado identificado:** o arquivo "LLM-BL E N D E R" enviado é Jiang et al. 2023
+   (ensembling de gerações, ACL 2023) — NÃO é o JudgeBlender (Rahmani et al.,
+   arXiv:2412.13268). Os campos do JudgeBlender foram re-verificados diretamente no
+   arXiv nesta revisão: PromptBlender = Llama-3-8B × 3 prompts (Thomas / critérios /
+   two-step de Sun); LLMBlender = Mistral-7B (critérios), Gemma-7B (Thomas),
+   Llama-3-8B (two-step); agregações AV e MV(Avg./Max./Min.); melhor variante
+   LLMBlender-MV(Avg.); prompts no GitHub (link adicionado à coluna Código).
+2. **SA Judge — URL localizada:** o artigo não enviado era "Auto-Judge: A Cross-Task
+   Benchmark..." (Farzi et al., SIGIR 2026, DOI 10.1145/3805712.3808601). O SA Judge é
+   um baseline interno desse benchmark (prompt 8-shot de entailment do Auto-ARGUE,
+   RAGTIME 2025). Mantido como ignorado (RAG), agora com link correto.
+3. **Nova linha no escopo:** "UMBRELA em outros LLMs" (Farzi & Dietz, 2025,
+   arXiv:2507.09483) — reprodução do UMBRELA com GPT-4o, DeepSeek V3, LLaMA-3.3-70B,
+   LLaMA-3-8B e FLAN-T5-large em TREC DL 2019/2020/2023. Diretamente relevante para o
+   eixo custo/qualidade do PIBIC. Código: o paper não indica repositório público
+   (os autores reimplementaram; prompts do repo UMBRELA) — marcado "Não".
+4. **Nova linha ignorada:** Merlo et al. (CIKM 2025) — confirmado pelos PDF que é um
+   framework estatístico de meta-avaliação (procedimentos Confidence-Based e
+   Budget-Based com SRS + Wald), não um julgador. Sugerido como apoio metodológico
+   para a meta-avaliação do PIBIC. Link ACM adicionado (DOI 10.1145/3746252.3761200).
+5. **Campos conferidos e confirmados contra os PDFs (sem alteração):**
+   - NormasTCU: sem código no paper (só dataset no HF); números (14.469 docs, 46
+     queries, 812 pares, MAE 0,46–0,66, κ 0,32–0,53) batem com a matriz.
+   - Thomas et al.: TREC Robust 2004, 250 tópicos, GPT-4 in-house, sem código.
+   - Faggioli et al.: TREC-8 e TREC DL 2021; GPT-3.5 = text-davinci-003; sem código.
+   - Criteria-Based/TREMA: LLaMA-3-8B-Instruct; código não mencionado no paper
+     ("Não" mantido); variantes e nomes dos 4 critérios confirmados.
+   - UMBRELA: TREC DL 2019–2023, GPT-4o, código castorini/umbrela confirmado.
+   - One-Shot Labeling: DuoPrompt usa Flan-T5 com teacher-forcing (probabilidade
+     yes/no) — confirma "Pairwise"; pacote de código publicado; TREC DL 2019–2021.
+   - MaxRep: k=128, BM25/TCT, não usa a consulta — confirma baseline não-LLM.
+   - RankGPT: re-ranking com janela deslizante — confirma exclusão.
+6. **Detalhes adicionados (estavam nos PDFs, enriqueceram as Observações):** τ/κ do
+   UMBRELA por track; mapeamento de faixas do sumdecompose; nomes dos LLMs do
+   NormasTCU; correlações de sistemas do One-Shot; melhor variante do JudgeBlender.
+7. **Seção "Literatura de apoio" criada** para os PDFs que não são métodos nem
+   entram na comparação (workshops LLM4Eval, survey, LLMJudge, Judging the Judges,
+   Large-Scale Study UMBRELA) — nada descartado, apenas classificado.
+
+## Relatório de correções (versão original -> revisão nº 1, mantido para histórico)
+
+1. **Duplicata removida:** "Thomas et al." e "Thomas et al. (Direct Prompting)" eram o
+   mesmo paper (arXiv:2309.10621) — consolidado em uma linha.
+2. **NormasTCU — código:** tabela original marcava "Código: Sim". O artigo não
+   disponibiliza código de avaliação; o que é público é o dataset (14.469 documentos,
+   46 consultas, 812 pares julgados, escala 0–2) no HuggingFace. Corrigido para "Não",
+   com link do dataset.
+3. **UMBRELA — benchmark:** saída do NotebookLM listava "TREC Robust 2004, TREC RAG
+   2024". O paper reporta experimentos apenas em TREC DL 2019–2023; o uso no TREC 2024
+   RAG Track é aplicação posterior, não benchmark do estudo.
+4. **UMBRELA — sigla DNA:** é Descriptive, Narrative, Aspects (técnica de prompting
+   zero-shot), não "intenção provável e confiabilidade".
+5. **JudgeBlender — detalhes:** PromptBlender usa 1 LLM (Llama-3-8B) com 3 prompts;
+   LLMBlender usa 3 LLMs (Mistral-7B, Gemma-7B, Llama-3-8B) com prompts distintos;
+   agregação inclui AV, MV(Avg.), MV(Max.), MV(Min.).
+6. **JudgeBlender — ano:** arXiv dez/2024, The Web Conf 2025 — "2024/2025".
+7. **Criteria-Based (COT):** renomeado de "árvore" para "gate binário" (pré-check
+   binário com desvio condicional; sem árvore de decisão explícita).
+8. **DuoT5:** reclassificado como "Pairwise (supervisionado)" — T5-3B fine-tunado,
+   diferente dos métodos zero-shot; movido para baseline.
