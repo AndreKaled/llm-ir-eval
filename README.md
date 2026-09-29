@@ -8,6 +8,9 @@ Este projeto investiga e compara métodos de avaliação automática baseados em
 
 O estudo concentra-se nos *trade-offs* práticos entre qualidade da avaliação, correlação com julgamentos humanos, custo, latência e robustez, buscando identificar as vantagens, limitações e características relevantes de cada método.
 
+## Docs
+[Matriz comparativa de métodos](docs/methods.md)
+
 ## Objetivos
 
 * Levantar sistematicamente métodos de avaliação automática baseados em LLMs publicados a partir de 2020;
