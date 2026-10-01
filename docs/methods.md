@@ -26,7 +26,17 @@ as observaçoes foram feitas pelo Kimi, então talvez estejam falando de algo do
 | One-Shot Labeling (DuoPrompt) | 2023 | Pairwise | [One-Shot Labeling for Automatic Relevance Estimation](https://arxiv.org/abs/2302.11266) | [Sim](https://github.com/seanmacavaney/autoqrels) | TREC DL 2019–2021 | Não entendi nada, vou olhar dps mas nao parece ser codigo fonte pra reproduzir experimento pelo menos, deve ser outra coisa (hipotese minha estou com sono) |
 | One-Shot Labeling (DuoT5) — baseline | 2023 | Pairwise (supervisionado) | [One-Shot Labeling for Automatic Relevance Estimation](https://arxiv.org/abs/2302.11266) | [Sim](https://github.com/seanmacavaney/autoqrels) | TREC DL 2019–2021 | T5-3B fine-tunado de relevância relativa (DuoT5 de Pradeep et al. 2021) — não é zero-shot; usar como baseline supervisionado (a ler) |
 
+
+## Datasets para experimentar
+| Artigo/Link | Detalhe |
+|---|---|
+| [TREC Deep Learning](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | "benchmark âncora" para avaliação automática por LLM, investigar |
+| [BEIR: A Heterogenous Benchmark for Zero-shot Evaluation of Information Retrieval Models](https://arxiv.org/abs/2104.08663) | Framework com diversos datasets, melhor para verificar se o método funciona além de um único corpus, investigar|
+| [MS MARCO](https://huggingface.co/datasets/microsoft/ms_marco) | Dataset da Microsoft para o navegador Bing, investigar dps |
+| [NormasTCU --- A Brazilian Portuguese IR Dataset and an Evaluation of LLM-as-a-Judge for Relevance Assessment](https://arxiv.org/abs/2608.27746)|Brasileiro, talvez seja bom para medir se a avaliação automática generaliza para normas e pareceres de domínio específico (juridico), investigar dps|
+| [JurisTCU: A Brazilian Portuguese Information Rtrieval Dataset with Query Relevance Judgments](https://arxiv.org/abs/2503.08379)| Brasileiro, útil para separar "normativo" de "jurisprudencial", dominio específico (juridico), investigar dps |
 ---
+
 a partir de baixo, não garanto nada tbm irei ver mais tarde
 
 
