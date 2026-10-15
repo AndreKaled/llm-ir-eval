@@ -45,3 +45,18 @@ experiments/  # Configurações, scripts e resultados dos experimentos
 data/         # Documentação dos conjuntos de dados e instruções de aquisição
 docs/         # Documentação e materiais relacionados à pesquisa
 ```
+
+# Como executar
+```bash
+docker compose up -d
+```
+
+Rodar experimento:
+```bash
+docker compose exec app python src/run.py run dl19 umbrela --limit 20
+```
+
+Analisar resultados:
+```bash
+docker compose exec app python src/run.py analyze experiments/dl19_umbrela.jsonl
+```
