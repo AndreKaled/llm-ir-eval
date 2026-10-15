@@ -1,0 +1,19 @@
+# O código fica no seu disco (volume): editar src/ não exige rebuild.
+services:
+  app:
+    build: .
+    user: "${UID:-1000}:${GID:-1000}"
+    working_dir: /app
+    volumes: [".:/app"]
+    stdin_open: true
+    tty: true
+    environment:
+      BASE_URL: https://api.groq.com/openai/v1   # troque para usar uma API (OpenAI, Together...)
+      MODEL: openai/gpt-oss-120b
+      OPENAI_API_KEY: 
+  ollama:                      # LLM local; só sobe com: docker compose --profile local up -d ollama
+    image: ollama/ollama
+    profiles: ["local"]
+    volumes: ["ollama:/root/.ollama"]
+volumes:
+  ollama:

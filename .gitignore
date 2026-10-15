@@ -2,3 +2,7 @@ __pycache__/
 .venv/
 .env
 *.pyc
+.ir_datasets/*
+cache/*
+data/*
+!*.md
